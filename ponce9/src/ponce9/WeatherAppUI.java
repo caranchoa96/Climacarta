@@ -1,5 +1,3 @@
-package ponce9;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -35,7 +33,7 @@ public class WeatherAppUI {
         frame.setShape(new java.awt.geom.RoundRectangle2D.Double(0, 0, 1050, 600, 30, 30));
 
         // 1. Calculamos el color (Día o Noche)
-        Color colorPrincipal = Elementos.is_day.equals("☀️") ? new Color(135, 206, 250) : new Color(44, 62, 80);
+        Color colorPrincipal = Elementos.is_day.equals("☀️") ? COLOR_FONDO_DIA : COLOR_FONDO_NOCHE;
 
         // 2. EL TRUCO: Creamos un Panel Maestro
         JPanel panelPrincipal = new JPanel();
