@@ -4,16 +4,22 @@
  */
 package ponce9;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 
 /**
@@ -32,34 +38,50 @@ public class Modelo {
                 .build(); 
             HttpResponse<String> response = httpClient.send(request, 
                 HttpResponse.BodyHandlers.ofString());
-            json = response.body()+";"+response.headers();        
-        }catch(Exception e){System.out.print(e);}
-        return json;
+            json = response.body()+";"+response.headers();     
+            return json;
+        }catch(Exception e){}
+        return "";
     }
    
-    public static void mapInfo(String json) {  
-        String[] jason = json.split(";");
+    public static void mapInfo(String json) {
+        File cuerpo = new File("cuerpo.json");
+        File cabeza = new File("cabeza.json");
         ObjectMapper mapper = new ObjectMapper();
         Elementos carga = new Elementos();
+        JsonNode nodoCuerpo = null;
         
-        try {
-            JsonNode nodoCuerpo = mapper.readTree(jason[0]);
-            String fechalocal[] = nodoCuerpo.at("/location/localtime").asText().split(" ");
-            traerInfoDias(nodoCuerpo.at("/forecast/forecastday"),fechalocal[0],carga);
-            carga.setIs_day((nodoCuerpo.at("/current/is_day").asInt()));
-            carga.setCloud(nodoCuerpo.at("/current/cloud").asInt());
-            carga.setTemp_c(nodoCuerpo.at("/current/temp_c").asInt());
-            carga.setText(nodoCuerpo.at("/current/condition/text").asText());
-            carga.setHumidity(nodoCuerpo.at("/current/humidity").asInt());
-            carga.setWind_kph(nodoCuerpo.at("/current/wind_kph").asInt());
-            carga.setWind_dir(nodoCuerpo.at("/current/wind_dir").asText());
-            carga.setDate(diaInfo(jason), fechalocal[0], fechalocal[1].split(":"));
-            carga.setHora(fechalocal[1]);
-            
-            carga.setUv(nodoCuerpo.at("/current/uv").asInt());
-        } catch (Exception e) {
-            e.printStackTrace();
+        
+        
+       
+        
+        
+        if(json.equals("")){
+            if(cuerpo.exists()&&cabeza.exists()){
+                nodoCuerpo = mapper.readTree(cuerpo);
+                json = mapper.readTree(cuerpo).toString().concat(";").concat(mapper.readTree(cabeza).toString());
+            }else{
+                JOptionPane.showMessageDialog(null, "¡Ingrese con internet la primera ves!");
+            }
+        }else{
+            nodoCuerpo = mapper.readTree(json.split(";")[0]);
+            mapper.writeValue(cuerpo, nodoCuerpo);
+            mapper.writeValue(cabeza, json.split(";")[1]);
         }
+        String[] jason = json.split(";");
+        String fechalocal[] = nodoCuerpo.at("/location/localtime").asString().split(" ");
+        traerInfoDias(nodoCuerpo.at("/forecast/forecastday"),fechalocal[0],carga);
+        carga.setIs_day((nodoCuerpo.at("/current/is_day").asInt()));
+        carga.setCloud(nodoCuerpo.at("/current/cloud").asInt());
+        carga.setTemp_c(nodoCuerpo.at("/current/temp_c").asInt());
+        carga.setText(nodoCuerpo.at("/current/condition/text").asString());
+        carga.setHumidity(nodoCuerpo.at("/current/humidity").asInt());
+        carga.setWind_kph(nodoCuerpo.at("/current/wind_kph").asInt());
+        carga.setWind_dir(nodoCuerpo.at("/current/wind_dir").asString());
+        carga.setDate(diaInfo(jason[1]), fechalocal[0], fechalocal[1].split(":"));
+        carga.setHora(fechalocal[1]);
+        
+        carga.setUv(nodoCuerpo.at("/current/uv").asInt());
     }
     public static void traerInfoDias(JsonNode forecast, String hora, Elementos carga ){
    
@@ -76,7 +98,7 @@ public class Modelo {
         int[] daily_will_it_rain = new int[7];
         for(int i = 0; i < 7; i++){     
             for (JsonNode node : forecast) {
-                if(node.get("date").asText().equals(sdf.format(c.getTime()))) {
+                if(node.get("date").asString().equals(sdf.format(c.getTime()))) {
                     maxtemp_c[i] = (int) node.get("day").get("maxtemp_c").asDouble();
                     mintemp_c[i] = (int) node.get("day").get("mintemp_c").asDouble();
                     daily_will_it_rain[i] = node.get("day").get("daily_will_it_rain").asInt();   
@@ -88,9 +110,9 @@ public class Modelo {
         carga.setMintemp_c(mintemp_c);
         carga.setDaily_will_it_rain(daily_will_it_rain);
     }
-    public static String diaInfo(String[] jason){
-        
-        String headers[] = jason[1].split(",");
+    public static String diaInfo(String headersa){
+        //date = headers.split(",");
+        String headers[] = headersa.split(",");
         String date = headers[16];
         String dia[] = date.split("\\[");
         String dialetras = dia[1];
