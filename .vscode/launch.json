@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+        "type": "java",
+        "name": "WeatherAppUI",
+        "request": "launch",
+        "mainClass": "WeatherAppUI",
+        "projectName": "Climacarta_603a558d"
+    },
+    {
+        "type": "java",
+        "name": "Launch ponce9.WeatherAppUI",
+        "request": "launch",
+        "mainClass": "ponce9.WeatherAppUI",
+        "classPaths": [
+            "${workspaceFolder}/ponce9/build/classes"
+        ],
+        "cwd": "${workspaceFolder}/ponce9",
+        "console": "integratedTerminal"
+    }
+]
+}
