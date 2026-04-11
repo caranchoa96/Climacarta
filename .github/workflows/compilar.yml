@@ -26,10 +26,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       # 3. ¡El comando de compilación! Usa las Visual Studio Tools que el servidor ya tiene instaladas
-      - name: Compilar a binario nativo (.exe)
+      - name: Compilar a binario nativo
         run: |
-		native-image -jar clima.jar -H:ConfigurationFileDirectories=configuracion -H:IncludeLocales=es --no-fallback
-		Copy-Item "$env:JAVA_HOME\lib\fontconfig.*" -Destination "lib\"
+	  Copy-Item "$env:JAVA_HOME\lib\fontconfig.*" -Destination "lib\"
+	  native-image -jar clima.jar -H:ConfigurationFileDirectories=configuracion -H:IncludeLocales=es --no-fallback
+	  
 
       # 4. Toma el .exe generado y te lo guarda en un .zip para que lo descargues
       - name: Subir el .exe final
@@ -37,6 +38,6 @@ jobs:
         with:
           name: ClimaApp-Windows-EXE
           path: |
-              clima.exe
-              *.dll
-              lib/
+            clima.exe
+            *.dll
+            lib/
