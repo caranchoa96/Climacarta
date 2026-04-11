@@ -1,0 +1,39 @@
+name: Compilar EXE de Windows con GraalVM
+
+# ¿Cuándo se ejecuta esto? 
+# Cada vez que hagas un 'git push' o manualmente desde la web.
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch: 
+
+jobs:
+  build:
+    # ¡Aquí le pedimos prestada a GitHub una máquina con Windows!
+    runs-on: windows-latest 
+
+    steps:
+      # 1. Descarga tu código (el jar y la carpeta de config) en la máquina virtual
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
+
+      # 2. Instala GraalVM mágicamente en segundos
+      - name: Configurar GraalVM 21
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'
+          distribution: 'graalvm'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          components: 'native-image'
+
+      # 3. ¡El comando de compilación! Usa las Visual Studio Tools que el servidor ya tiene instaladas
+      - name: Compilar a binario nativo (.exe)
+        run: |
+          native-image -jar clima.jar -H:ConfigurationFileDirectories=configuracion --windows-gui
+
+      # 4. Toma el .exe generado y te lo guarda en un .zip para que lo descargues
+      - name: Subir el .exe final
+        uses: actions/upload-artifact@v4
+        with:
+          name: ClimaApp-Windows-EXE
+          path: clima.exe
