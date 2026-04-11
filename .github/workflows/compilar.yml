@@ -21,15 +21,14 @@ jobs:
       - name: Configurar GraalVM 21
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: '21'
+          java-version: '25'
           distribution: 'graalvm'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          components: 'native-image'
 
       # 3. ¡El comando de compilación! Usa las Visual Studio Tools que el servidor ya tiene instaladas
       - name: Compilar a binario nativo (.exe)
         run: |
-          native-image -jar clima.jar -H:ConfigurationFileDirectories=configuracion --windows-gui
+          native-image -jar clima.jar -H:ConfigurationFileDirectories=configuracion --no-fallback
 
       # 4. Toma el .exe generado y te lo guarda en un .zip para que lo descargues
       - name: Subir el .exe final
