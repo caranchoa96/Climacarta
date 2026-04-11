@@ -35,4 +35,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ClimaApp-Windows-EXE
-          path: clima.exe
+          path: |
+              clima.exe
+              *.dll
