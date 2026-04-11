@@ -25,18 +25,22 @@ jobs:
           distribution: 'graalvm'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      # 3. ¡El comando de compilación! Usa las Visual Studio Tools que el servidor ya tiene instaladas
-      - name: Compilar a binario nativo
+      # 3. Compilar el ejecutable
+      - name: Compilar JAR a EXE nativo
         run: |
-	  Copy-Item "$env:JAVA_HOME\lib\fontconfig.*" -Destination "lib\"
-	  native-image -jar clima.jar -H:ConfigurationFileDirectories=configuracion -H:IncludeLocales=es --no-fallback
-	  
+          native-image -jar clima.jar -H:ConfigurationFileDirectories=configuracion_win -H:IncludeLocales=es --no-fallback
 
-      # 4. Toma el .exe generado y te lo guarda en un .zip para que lo descargues
-      - name: Subir el .exe final
+      # 4. Robar los archivos de fuentes del JDK de Microsoft
+      - name: Extraer configuración de fuentes
+        run: |
+          New-Item -ItemType Directory -Force -Path lib
+          Copy-Item "$env:JAVA_HOME\lib\fontconfig.*" -Destination lib\
+
+      # 5. Guardar el .exe, las DLLs y la carpeta lib
+      - name: Subir el ejecutable y librerías
         uses: actions/upload-artifact@v4
         with:
-          name: ClimaApp-Windows-EXE
+          name: ClimaApp-Windows
           path: |
             clima.exe
             *.dll
