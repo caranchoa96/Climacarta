@@ -79,6 +79,21 @@
       "type": "com.sun.swing.internal.plaf.metal.resources.metal"
     },
     {
+      "type": "java.awt.AWTEvent",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "bdata"
+        },
+        {
+          "name": "consumed"
+        },
+        {
+          "name": "id"
+        }
+      ]
+    },
+    {
       "type": "java.awt.AlphaComposite",
       "jniAccessible": true,
       "fields": [
@@ -111,6 +126,15 @@
           "name": "background"
         },
         {
+          "name": "cursor"
+        },
+        {
+          "name": "enabled"
+        },
+        {
+          "name": "focusable"
+        },
+        {
           "name": "foreground"
         },
         {
@@ -120,13 +144,13 @@
           "name": "height"
         },
         {
-          "name": "isPacked"
-        },
-        {
-          "name": "name"
+          "name": "parent"
         },
         {
           "name": "peer"
+        },
+        {
+          "name": "visible"
         },
         {
           "name": "width"
@@ -140,26 +164,168 @@
       ],
       "methods": [
         {
+          "name": "getFont_NoClientCode",
+          "parameterTypes": []
+        },
+        {
           "name": "getLocationOnScreen_NoTreeLock",
           "parameterTypes": []
         },
         {
-          "name": "getParent_NoClientCode",
+          "name": "getToolkitImpl",
+          "parameterTypes": []
+        },
+        {
+          "name": "isEnabledImpl",
           "parameterTypes": []
         }
       ]
     },
     {
-      "type": "java.awt.GraphicsEnvironment",
+      "type": "java.awt.Container",
       "jniAccessible": true,
-      "methods": [
+      "fields": [
         {
-          "name": "getLocalGraphicsEnvironment",
-          "parameterTypes": []
+          "name": "layoutMgr"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Cursor",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "pData"
         },
         {
-          "name": "isHeadless",
+          "name": "type"
+        }
+      ],
+      "methods": [
+        {
+          "name": "setPData",
+          "parameterTypes": [
+            "long"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Dialog",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "title"
+        },
+        {
+          "name": "undecorated"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Dimension",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "height"
+        },
+        {
+          "name": "width"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Font",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "name"
+        },
+        {
+          "name": "pData"
+        },
+        {
+          "name": "size"
+        },
+        {
+          "name": "style"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getFont",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "getFontPeer",
           "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.awt.FontMetrics",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "font"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getHeight",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Frame",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "undecorated"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Insets",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "bottom"
+        },
+        {
+          "name": "left"
+        },
+        {
+          "name": "right"
+        },
+        {
+          "name": "top"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int",
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Point",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "x"
+        },
+        {
+          "name": "y"
         }
       ]
     },
@@ -179,7 +345,94 @@
       ]
     },
     {
-      "type": "java.awt.SequencedEvent"
+      "type": "java.awt.SequencedEvent",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.awt.AWTEvent"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Toolkit",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "getDefaultToolkit",
+          "parameterTypes": []
+        },
+        {
+          "name": "getFontMetrics",
+          "parameterTypes": [
+            "java.awt.Font"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Window",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "autoRequestFocus"
+        },
+        {
+          "name": "locationByPlatform"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Window$Type",
+      "jniAccessible": true
+    },
+    {
+      "type": "java.awt.desktop.UserSessionEvent$Reason",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "CONSOLE"
+        },
+        {
+          "name": "LOCK"
+        },
+        {
+          "name": "REMOTE"
+        },
+        {
+          "name": "UNSPECIFIED"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.event.ComponentEvent",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.awt.Component",
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.event.InputEvent",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "modifiers"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getButtonDownMasks",
+          "parameterTypes": []
+        }
+      ]
     },
     {
       "type": "java.awt.event.KeyEvent",
@@ -192,7 +445,72 @@
           "name": "VK_F10"
         },
         {
-          "name": "isProxyActive"
+          "name": "extendedKeyCode"
+        },
+        {
+          "name": "keyChar"
+        },
+        {
+          "name": "keyCode"
+        },
+        {
+          "name": "primaryLevelUnicode"
+        },
+        {
+          "name": "rawCode"
+        },
+        {
+          "name": "scancode"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.awt.Component",
+            "int",
+            "long",
+            "int",
+            "int",
+            "char",
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.event.MouseEvent",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "button"
+        },
+        {
+          "name": "causedByTouchEvent"
+        },
+        {
+          "name": "x"
+        },
+        {
+          "name": "y"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.awt.Component",
+            "int",
+            "long",
+            "int",
+            "int",
+            "int",
+            "int",
+            "int",
+            "int",
+            "boolean",
+            "int"
+          ]
         }
       ]
     },
@@ -405,7 +723,6 @@
             "int",
             "int",
             "int",
-            "int",
             "int"
           ]
         }
@@ -420,6 +737,9 @@
         },
         {
           "name": "colorData"
+        },
+        {
+          "name": "lookupcache"
         },
         {
           "name": "map_size"
@@ -535,23 +855,24 @@
       ]
     },
     {
-      "type": "java.lang.System",
+      "type": "java.lang.Enum",
       "jniAccessible": true,
       "methods": [
         {
-          "name": "load",
-          "parameterTypes": [
-            "java.lang.String"
-          ]
+          "name": "name",
+          "parameterTypes": []
         }
       ]
+    },
+    {
+      "type": "java.lang.String[]"
     },
     {
       "type": "java.lang.Thread",
       "jniAccessible": true,
       "methods": [
         {
-          "name": "yield",
+          "name": "currentThread",
           "parameterTypes": []
         }
       ]
@@ -561,6 +882,21 @@
     },
     {
       "type": "java.security.KeyStoreSpi"
+    },
+    {
+      "type": "java.util.Locale",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "forLanguageTag",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.util.Locale[]"
     },
     {
       "type": "javax.swing.plaf.basic.BasicPanelUI",
@@ -742,10 +1078,88 @@
       ]
     },
     {
+      "type": "ponce9.WeatherAppUI",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "main",
+          "parameterTypes": [
+            "java.lang.String[]"
+          ]
+        }
+      ]
+    },
+    {
       "type": "ponce9.WeatherAppUI$2"
     },
     {
       "type": "ponce9.WeatherAppUI$PanelRedondeado"
+    },
+    {
+      "type": "sun.awt.AWTAutoShutdown",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "notifyToolkitThreadBusy",
+          "parameterTypes": []
+        },
+        {
+          "name": "notifyToolkitThreadFree",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.EmbeddedFrame",
+      "jniAccessible": true
+    },
+    {
+      "type": "sun.awt.ExtendedKeyCodes",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "getExtendedKeyCodeForChar",
+          "parameterTypes": [
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.FontDescriptor",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "nativeName"
+        },
+        {
+          "name": "useUnicode"
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.LightweightFrame",
+      "jniAccessible": true
+    },
+    {
+      "type": "sun.awt.PlatformFont",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "componentFonts"
+        },
+        {
+          "name": "fontConfig"
+        }
+      ],
+      "methods": [
+        {
+          "name": "makeConvertedMultiFontString",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
     },
     {
       "type": "sun.awt.SunHints",
@@ -761,121 +1175,70 @@
       "jniAccessible": true,
       "methods": [
         {
-          "name": "awtLock",
-          "parameterTypes": []
-        },
-        {
-          "name": "awtLockNotify",
-          "parameterTypes": []
-        },
-        {
-          "name": "awtLockNotifyAll",
-          "parameterTypes": []
-        },
-        {
-          "name": "awtLockWait",
-          "parameterTypes": [
-            "long"
-          ]
-        },
-        {
-          "name": "awtUnlock",
+          "name": "isTouchKeyboardAutoShowEnabled",
           "parameterTypes": []
         }
       ]
     },
     {
-      "type": "sun.awt.X11.XBaseWindow",
-      "jniAccessible": true,
-      "fields": [
-        {
-          "name": "window"
-        }
-      ],
+      "type": "sun.awt.Symbol",
       "methods": [
         {
-          "name": "getWindow",
+          "name": "<init>",
           "parameterTypes": []
         }
       ]
     },
     {
-      "type": "sun.awt.X11.XContentWindow"
-    },
-    {
-      "type": "sun.awt.X11.XErrorHandlerUtil",
+      "type": "sun.awt.TimedWindowEvent",
       "jniAccessible": true,
       "methods": [
         {
-          "name": "init",
+          "name": "<init>",
           "parameterTypes": [
+            "java.awt.Window",
+            "int",
+            "java.awt.Window",
+            "int",
+            "int",
             "long"
           ]
         }
       ]
     },
     {
-      "type": "sun.awt.X11.XFramePeer"
-    },
-    {
-      "type": "sun.awt.X11.XToolkit",
+      "type": "sun.awt.Win32GraphicsConfig",
       "jniAccessible": true,
       "fields": [
         {
-          "name": "modLockIsShiftLock"
-        },
-        {
-          "name": "numLockMask"
+          "name": "visual"
         }
       ]
     },
     {
-      "type": "sun.awt.X11.XWindow",
+      "type": "sun.awt.Win32GraphicsDevice",
       "jniAccessible": true,
       "fields": [
         {
-          "name": "drawState"
-        },
-        {
-          "name": "graphicsConfig"
-        },
-        {
-          "name": "target"
+          "name": "dynamicColorModel"
         }
       ]
     },
     {
-      "type": "sun.awt.X11GraphicsConfig",
-      "jniAccessible": true,
-      "fields": [
-        {
-          "name": "aData"
-        },
-        {
-          "name": "bitsPerPixel"
-        }
-      ]
-    },
-    {
-      "type": "sun.awt.X11GraphicsDevice",
+      "type": "sun.awt.Win32GraphicsEnvironment",
       "jniAccessible": true,
       "methods": [
         {
-          "name": "addDoubleBufferVisual",
+          "name": "dwmCompositionChanged",
           "parameterTypes": [
-            "int"
+            "boolean"
           ]
         }
       ]
     },
     {
-      "type": "sun.awt.X11InputMethodBase",
-      "jniAccessible": true,
-      "fields": [
-        {
-          "name": "pData"
-        }
-      ]
+      "type": "sun.awt.im.InputMethodWindow",
+      "jniAccessible": true
     },
     {
       "type": "sun.awt.image.BufImgSurfaceData$ICMColorData",
@@ -924,6 +1287,262 @@
         },
         {
           "name": "type"
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.image.SunVolatileImage",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "volSurfaceManager"
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.image.VolatileSurfaceManager",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "sdCurrent"
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WComponentPeer",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "hwnd"
+        },
+        {
+          "name": "winGraphicsConfig"
+        }
+      ],
+      "methods": [
+        {
+          "name": "disposeLater",
+          "parameterTypes": []
+        },
+        {
+          "name": "handleExpose",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int",
+            "int"
+          ]
+        },
+        {
+          "name": "postEvent",
+          "parameterTypes": [
+            "java.awt.AWTEvent"
+          ]
+        },
+        {
+          "name": "replaceSurfaceData",
+          "parameterTypes": []
+        },
+        {
+          "name": "replaceSurfaceDataLater",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WDesktopPeer",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "systemSleepCallback",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "userSessionCallback",
+          "parameterTypes": [
+            "boolean",
+            "java.awt.desktop.UserSessionEvent$Reason"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WDesktopProperties",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "pData"
+        }
+      ],
+      "methods": [
+        {
+          "name": "setBooleanProperty",
+          "parameterTypes": [
+            "java.lang.String",
+            "boolean"
+          ]
+        },
+        {
+          "name": "setColorProperty",
+          "parameterTypes": [
+            "java.lang.String",
+            "int",
+            "int",
+            "int"
+          ]
+        },
+        {
+          "name": "setFontProperty",
+          "parameterTypes": [
+            "java.lang.String",
+            "java.lang.String",
+            "int",
+            "int"
+          ]
+        },
+        {
+          "name": "setIntegerProperty",
+          "parameterTypes": [
+            "java.lang.String",
+            "int"
+          ]
+        },
+        {
+          "name": "setSoundProperty",
+          "parameterTypes": [
+            "java.lang.String",
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setStringProperty",
+          "parameterTypes": [
+            "java.lang.String",
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WFontPeer",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "textComponentFontName"
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WFramePeer",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "getExtendedState",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WGlobalCursorManager",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "nativeUpdateCursor",
+          "parameterTypes": [
+            "java.awt.Component"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WObjectPeer",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "createError"
+        },
+        {
+          "name": "destroyed"
+        },
+        {
+          "name": "pData"
+        },
+        {
+          "name": "target"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getPeerForTarget",
+          "parameterTypes": [
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WPanelPeer",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "insets_"
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WToolkit",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "displayChanged",
+          "parameterTypes": []
+        },
+        {
+          "name": "paletteChanged",
+          "parameterTypes": []
+        },
+        {
+          "name": "windowsSettingChange",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WWindowPeer",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "windowType"
+        }
+      ],
+      "methods": [
+        {
+          "name": "draggedToNewScreen",
+          "parameterTypes": []
+        },
+        {
+          "name": "notifyWindowStateChanged",
+          "parameterTypes": [
+            "int",
+            "int"
+          ]
+        },
+        {
+          "name": "setBackground",
+          "parameterTypes": [
+            "java.awt.Color"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WingDings",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
         }
       ]
     },
@@ -1240,16 +1859,6 @@
       ]
     },
     {
-      "type": "sun.java2d.SunGraphicsEnvironment",
-      "jniAccessible": true,
-      "methods": [
-        {
-          "name": "isDisplayLocal",
-          "parameterTypes": []
-        }
-      ]
-    },
-    {
       "type": "sun.java2d.SurfaceData",
       "jniAccessible": true,
       "fields": [
@@ -1260,6 +1869,65 @@
           "name": "valid"
         }
       ]
+    },
+    {
+      "type": "sun.java2d.d3d.D3DGraphicsDevice$1",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "run",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.d3d.D3DRenderQueue$1",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "run",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.d3d.D3DSurfaceData",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "nativeHeight"
+        },
+        {
+          "name": "nativeWidth"
+        }
+      ],
+      "methods": [
+        {
+          "name": "dispose",
+          "parameterTypes": [
+            "long"
+          ]
+        },
+        {
+          "name": "setSurfaceLost",
+          "parameterTypes": [
+            "boolean"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.d3d.D3DSurfaceData$1",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "run",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.d3d.D3DSurfaceData$D3DWindowSurfaceData"
     },
     {
       "type": "sun.java2d.loops.Blit",
@@ -1565,6 +2233,69 @@
       ]
     },
     {
+      "type": "sun.java2d.loops.SetDrawLineANY",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.SetDrawPathANY",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.SetDrawPolygonsANY",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.SetDrawRectANY",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.SetFillPathANY",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.SetFillRectANY",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.SetFillSpansANY",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
       "type": "sun.java2d.loops.SurfaceType",
       "jniAccessible": true,
       "fields": [
@@ -1748,29 +2479,35 @@
       ]
     },
     {
-      "type": "sun.java2d.xr.XRBackendNative",
+      "type": "sun.java2d.windows.WindowsFlags",
       "jniAccessible": true,
       "fields": [
         {
-          "name": "FMTPTR_A8"
+          "name": "d3dEnabled"
         },
         {
-          "name": "FMTPTR_ARGB32"
+          "name": "d3dSet"
         },
         {
-          "name": "MASK_XIMG"
+          "name": "setHighDPIAware"
         }
       ]
     },
     {
-      "type": "sun.java2d.xr.XRSurfaceData",
+      "type": "sun.launcher.LauncherHelper",
       "jniAccessible": true,
       "fields": [
         {
-          "name": "picture"
+          "name": "isStaticMain"
         },
         {
-          "name": "xid"
+          "name": "noArgMain"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getApplicationClass",
+          "parameterTypes": []
         }
       ]
     },
@@ -1793,6 +2530,17 @@
       ]
     },
     {
+      "type": "sun.security.provider.DRBG",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.security.SecureRandomParameters"
+          ]
+        }
+      ]
+    },
+    {
       "type": "sun.security.provider.DSA$SHA224withDSA",
       "methods": [
         {
@@ -1807,26 +2555,6 @@
         {
           "name": "<init>",
           "parameterTypes": []
-        }
-      ]
-    },
-    {
-      "type": "sun.security.provider.JavaKeyStore$JKS",
-      "methods": [
-        {
-          "name": "<init>",
-          "parameterTypes": []
-        }
-      ]
-    },
-    {
-      "type": "sun.security.provider.NativePRNG",
-      "methods": [
-        {
-          "name": "<init>",
-          "parameterTypes": [
-            "java.security.SecureRandomParameters"
-          ]
         }
       ]
     },
@@ -2008,6 +2736,18 @@
       ]
     },
     {
+      "type": "sun.security.x509.ExtendedKeyUsageExtension",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Boolean",
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
       "type": "sun.security.x509.KeyUsageExtension",
       "methods": [
         {
@@ -2044,18 +2784,6 @@
       ]
     },
     {
-      "type": "sun.security.x509.SubjectAlternativeNameExtension",
-      "methods": [
-        {
-          "name": "<init>",
-          "parameterTypes": [
-            "java.lang.Boolean",
-            "java.lang.Object"
-          ]
-        }
-      ]
-    },
-    {
       "type": "sun.security.x509.SubjectKeyIdentifierExtension",
       "methods": [
         {
@@ -2072,6 +2800,9 @@
     },
     {
       "type": "sun.text.resources.FormatData_en"
+    },
+    {
+      "type": "sun.text.resources.FormatData_en_US"
     },
     {
       "type": "sun.text.resources.JavaTimeSupplementary"
@@ -2122,20 +2853,28 @@
       "glob": "jdk/internal/icu/impl/data/icudt76b/ubidi.icu"
     },
     {
-      "module": "java.base",
-      "glob": "jdk/internal/icu/impl/data/icudt76b/uprops.icu"
+      "module": "java.desktop",
+      "glob": "com/sun/swing/internal/plaf/basic/resources/basic_es.properties"
     },
     {
       "module": "java.desktop",
-      "glob": "com/sun/swing/internal/plaf/basic/resources/basic_en.properties"
+      "glob": "com/sun/swing/internal/plaf/basic/resources/basic_es_MX.properties"
     },
     {
       "module": "java.desktop",
-      "glob": "com/sun/swing/internal/plaf/metal/resources/metal_en.properties"
+      "glob": "com/sun/swing/internal/plaf/metal/resources/metal_es.properties"
     },
     {
       "module": "java.desktop",
-      "glob": "sun/awt/resources/awt_en.properties"
+      "glob": "com/sun/swing/internal/plaf/metal/resources/metal_es_MX.properties"
+    },
+    {
+      "module": "java.desktop",
+      "glob": "sun/awt/resources/awt_es.properties"
+    },
+    {
+      "module": "java.desktop",
+      "glob": "sun/awt/resources/awt_es_MX.properties"
     },
     {
       "bundle": "com.sun.swing.internal.plaf.basic.resources.basic"
@@ -2148,6 +2887,65 @@
     }
   ],
   "foreign": {
+    "upcalls": [
+      {
+        "returnType": "jint",
+        "parameterTypes": [
+          "jint",
+          "void*"
+        ]
+      }
+    ],
+    "downcalls": [
+      {
+        "returnType": "void",
+        "parameterTypes": [
+          "jfloat",
+          "void*",
+          "void*",
+          "void*",
+          "jint",
+          "jint",
+          "jint",
+          "jint",
+          "jint",
+          "jfloat",
+          "jfloat",
+          "jint",
+          "jint",
+          "void*",
+          "void*"
+        ]
+      },
+      {
+        "returnType": "void*",
+        "parameterTypes": [
+          "jlong"
+        ]
+      },
+      {
+        "returnType": "void*",
+        "parameterTypes": [
+          "void*",
+          "void*",
+          "void*",
+          "void*",
+          "void*"
+        ]
+      },
+      {
+        "returnType": "void*",
+        "parameterTypes": [
+          "void*"
+        ]
+      },
+      {
+        "returnType": "void",
+        "parameterTypes": [
+          "void*"
+        ]
+      }
+    ],
     "directUpcalls": [
       {
         "class": "sun.font.HBShaper",
@@ -2224,65 +3022,6 @@
           "void*",
           "jint",
           "void*",
-          "void*"
-        ]
-      }
-    ],
-    "upcalls": [
-      {
-        "returnType": "jint",
-        "parameterTypes": [
-          "jint",
-          "void*"
-        ]
-      }
-    ],
-    "downcalls": [
-      {
-        "returnType": "void",
-        "parameterTypes": [
-          "jfloat",
-          "void*",
-          "void*",
-          "void*",
-          "jint",
-          "jint",
-          "jint",
-          "jint",
-          "jint",
-          "jfloat",
-          "jfloat",
-          "jint",
-          "jint",
-          "void*",
-          "void*"
-        ]
-      },
-      {
-        "returnType": "void*",
-        "parameterTypes": [
-          "jlong"
-        ]
-      },
-      {
-        "returnType": "void*",
-        "parameterTypes": [
-          "void*",
-          "void*",
-          "void*",
-          "void*",
-          "void*"
-        ]
-      },
-      {
-        "returnType": "void*",
-        "parameterTypes": [
-          "void*"
-        ]
-      },
-      {
-        "returnType": "void",
-        "parameterTypes": [
           "void*"
         ]
       }

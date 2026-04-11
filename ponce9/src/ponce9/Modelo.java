@@ -5,6 +5,7 @@
 package ponce9;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -22,7 +23,7 @@ import ponce9.Dto.ForecastDay;
 public class Modelo {
     private static final String uri = "http://api.weatherapi.com/v1/forecast.json?key=64be5ac473da4381ac924404262703&q=Cartagena&days=7&aqi=no&alerts=no";
     public static String traerInfo(){
-        String json = "";
+        String json;
         try{
             HttpClient httpClient = HttpClient.newHttpClient(); 
             HttpRequest request = HttpRequest.newBuilder()

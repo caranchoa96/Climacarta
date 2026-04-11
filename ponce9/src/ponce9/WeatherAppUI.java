@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.awt.Point;
 import java.time.format.FormatStyle;
+import java.time.format.TextStyle;
 import java.util.Locale;
 
 public class WeatherAppUI {
@@ -76,8 +77,8 @@ public class WeatherAppUI {
         // Tu lógica original de variables se mantiene
         JLabel lblUbicacion = crearLabel("📍Cartagena, Colombia", 22, true, TEXTO_PRINCIPAL); // Solo la ciudad
         lblUbicacion.setBorder(new EmptyBorder(0, 0, 0, 0)); // Reseteamos bordes
-        
-        JLabel lblFecha = crearLabel(Elementos.Date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).localizedBy(Locale.getDefault()))+"", 15, false, TEXTO_SECUNDARIO);
+        String fecha = Elementos.Date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).localizedBy(Locale.of("es")));
+        JLabel lblFecha = crearLabel(fecha.substring(0,1).toUpperCase()+fecha.substring(1), 15, false, TEXTO_SECUNDARIO);
         
         JLabel lblHora = crearLabel("Cargando hora...", 15, true, TEXTO_SECUNDARIO);
         //LocalTime ahora = LocalTime.parse(Elementos.Date.format(DateTimeFormatter.ISO_TIME));
@@ -153,7 +154,8 @@ public class WeatherAppUI {
         for(int i=0; i<2; i++){
             // Tu lógica de variables original se mantiene
             panel.add(crearFilaPronosticoRedondeada(
-                Elementos.Date.getDayOfWeek().plus(i+1).name().substring(0, 1).toUpperCase().concat(Elementos.Date.getDayOfWeek().plus(i+1).name().substring(1).toLowerCase()), 
+                Elementos.Date.getDayOfWeek().plus(i+1).getDisplayName(TextStyle.FULL, Locale.of("es")).substring(0, 1).toUpperCase()
+                .concat(Elementos.Date.getDayOfWeek().plus(i+1).getDisplayName(TextStyle.FULL, Locale.of("es")).substring(1).toLowerCase()), 
                 Elementos.daily_will_it_rain[i+1] == 1 ? "🌧️":"☀️", 
                 Elementos.maxtemp_c[i+1]+"° / "+Elementos.mintemp_c[i+1]+"°"
             ));

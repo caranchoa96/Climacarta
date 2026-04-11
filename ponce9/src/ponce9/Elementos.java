@@ -6,6 +6,8 @@ package ponce9;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Locale;
 
 /**
  *
@@ -71,7 +73,7 @@ public class Elementos {
         */
         LocalDateTime fechaApi = LocalDateTime.parse(fecha, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         Date = fechaApi;
-        
+        String a = fechaApi.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).localizedBy(Locale.getDefault()));
         //fechaApi.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).localizedBy(Locale.getDefault()));
         
         //System.out.println(fechaparse);
