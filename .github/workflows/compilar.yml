@@ -29,6 +29,10 @@ jobs:
       - name: Compilar a binario nativo (.exe)
         run: |
           native-image -jar clima.jar -H:ConfigurationFileDirectories=configuracion -H:IncludeLocales=es --no-fallback
+	
+      - name: Extraer configuración de fuentes
+        run: |
+          Copy-Item "$env:JAVA_HOME\lib\fontconfig.*" -Destination "lib\"
 
       # 4. Toma el .exe generado y te lo guarda en un .zip para que lo descargues
       - name: Subir el .exe final
@@ -38,3 +42,4 @@ jobs:
           path: |
               clima.exe
               *.dll
+              lib/
