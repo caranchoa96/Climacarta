@@ -59,7 +59,6 @@ public class WeatherAppUI {
 
         // 4. Establecemos el Panel Maestro como el contenido total de la ventana
         frame.setContentPane(panelPrincipal);
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("ponce9/casa.png")));
         // Listener para poder mover la ventana con el mouse
         MoverVentanaListener moverListener = new MoverVentanaListener(frame);
         frame.addMouseListener(moverListener);
