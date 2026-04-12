@@ -32,7 +32,7 @@ jobs:
 
       # 4. Compilar el proyecto automáticamente con Ant
       - name: Compilar proyecto a JAR
-        run: ant jar
+        run: ant jar "-Dplatforms.JDK_26__System_.home=$env:JAVA_HOME"
 
       # 3. Sacar el JAR de la carpeta 'dist', moverlo a la raíz y renombrarlo a clima.jar
       - name: Preparar JAR para GraalVM
