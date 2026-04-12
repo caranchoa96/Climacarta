@@ -27,7 +27,7 @@ public class WeatherAppUI {
         // Carga y escritura
         // Si no se puede cargar se escriben los datos anteriores
         // No se le dice un carajo al usuario
-        //System.setProperty("java.home", ".");
+        System.setProperty("java.home", ".");
         Modelo.mapInfo(Modelo.traerInfo());
         SwingUtilities.invokeLater(() -> createAndShowGUI());
     }
