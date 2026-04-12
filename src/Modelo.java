@@ -22,8 +22,7 @@ public class Modelo {
     public static String traerInfo(){
         String json;
         try{
-            String apikey = "Las peliblancas son lindas";
-            String uri = "http://api.weatherapi.com/v1/forecast.json?key="+apikey+"&q=Cartagena&days=3&aqi=no&alerts=no";
+            String uri = "http://api.weatherapi.com/v1/forecast.json?key="+"Las peliblancas son lindas"+"&q=Cartagena&days=3&aqi=no&alerts=no";
             HttpClient httpClient = HttpClient.newHttpClient(); 
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
