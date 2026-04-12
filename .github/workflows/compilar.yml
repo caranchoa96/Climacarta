@@ -24,8 +24,12 @@ jobs:
           java-version: '25'
           distribution: 'graalvm'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
+      # Paso mágico: Inyectar la API Key secreta en el código fuente
+      - name: Inyectar API Key secreta
+        run: |
+          (Get-Content src/ponce9/Modelo.java) -replace 'Las peliblancas son lindas', '${{ secrets.CLIMA_API_KEY }}' | Set-Content src/ponce9/Modelo.java
       # 3. Compilar el ejecutable
+
       - name: Compilar JAR a EXE nativo
         run: |
           native-image -jar clima.jar -H:ConfigurationFileDirectories=configuracion -H:IncludeLocales=es -H:NativeLinkerOption=/SUBSYSTEM:WINDOWS -H:NativeLinkerOption=/ENTRY:mainCRTStartup --no-fallback
