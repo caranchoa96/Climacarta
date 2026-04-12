@@ -42,7 +42,7 @@ jobs:
 
       - name: Compilar JAR a EXE nativo
         run: |
-          native-image -cp "clima.jar;lib\*" ponce9.WeatherAppUI -H:Name=clima -H:ConfigurationFileDirectories=configuracion -H:IncludeLocales=es --no-fallback
+          native-image -cp "clima.jar;lib\*" ponce9.WeatherAppUI -H:Name=clima -H:ConfigurationFileDirectories=configuracion -H:IncludeLocales=es -H:IncludeResources=".*\.png$"--no-fallback
 
       # 6. Inyectar el ícono directamente en el .exe (usando el archivo en la raíz)
       - name: Poner ícono al ejecutable
