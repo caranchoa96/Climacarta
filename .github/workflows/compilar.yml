@@ -42,7 +42,7 @@ jobs:
 
       - name: Compilar JAR a EXE nativo
         run: |
-          native-image -jar clima.jar -H:ConfigurationFileDirectories=configuracion -H:IncludeLocales=es -H:NativeLinkerOption=/SUBSYSTEM:WINDOWS -H:NativeLinkerOption=/ENTRY:mainCRTStartup --no-fallback
+          native-image -jar clima.jar -H:ConfigurationFileDirectories=configuracion -H:IncludeLocales=es --no-fallback
 
       # 6. Inyectar el ícono directamente en el .exe (usando el archivo en la raíz)
       - name: Poner ícono al ejecutable
