@@ -28,7 +28,7 @@ jobs:
       # 3. Compilar el ejecutable
       - name: Compilar JAR a EXE nativo
         run: |
-          native-image -jar clima.jar -H:ConfigurationFileDirectories=configuracion -H:IncludeLocales=es -J-Dfile.encoding=UTF-8 -H:NativeLinkerOption=/SUBSYSTEM:WINDOWS -H:NativeLinkerOption=/ENTRY:mainCRTStartup --no-fallback
+          native-image -jar clima.jar -H:ConfigurationFileDirectories=configuracion -H:IncludeLocales=es -J-Dfile.encoding="UTF-8" -H:NativeLinkerOption=/SUBSYSTEM:WINDOWS -H:NativeLinkerOption=/ENTRY:mainCRTStartup --no-fallback
 
       # 4. Robar los archivos de fuentes del JDK de Microsoft
       - name: Extraer configuración de fuentes
