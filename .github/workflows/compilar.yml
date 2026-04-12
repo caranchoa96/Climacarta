@@ -28,7 +28,7 @@ jobs:
      # 3. Inyectar la API Key secreta (ajusta la ruta de tu archivo Java)
       - name: Inyectar API Key secreta
         run: |
-          (Get-Content src/Modelo.java) -replace 'Las peliblancas son lindas', '${{ secrets.CLIMA_API_KEY }}' | Set-Content src/Modelo.java
+          (Get-Content src/Modelo.java) -replace "Las peliblancas son lindas", '${{ secrets.CLIMA_API_KEY }}' | Set-Content src/Modelo.java
 
       # 4. Compilar el proyecto automáticamente con Ant
       - name: Compilar proyecto a JAR
