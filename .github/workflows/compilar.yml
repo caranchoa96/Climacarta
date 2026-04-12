@@ -48,7 +48,7 @@ jobs:
       # 6. Empaquetar todo con Inno Setup
       - name: Crear Instalador
         run: |
-          "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" instalador.iss
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" instalador.iss
 
       # 7. Entregar el instalador final
       - name: Subir Instalador
