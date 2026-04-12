@@ -38,6 +38,7 @@ jobs:
       - name: Preparar JAR para GraalVM
         run: |
           Move-Item "dist\*.jar" -Destination "clima.jar"
+          Copy-Item -Path "dist\lib\*" -Destination "lib" -Force
       # 5. Compilar el ejecutable
 
       - name: Compilar JAR a EXE nativo
