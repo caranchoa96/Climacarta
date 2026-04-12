@@ -24,23 +24,33 @@ jobs:
           java-version: '25'
           distribution: 'graalvm'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      # Paso mágico: Inyectar la API Key secreta en el código fuente
+      
+     # 3. Inyectar la API Key secreta (ajusta la ruta de tu archivo Java)
       - name: Inyectar API Key secreta
         run: |
-          (Get-Content src/ponce9/Modelo.java) -replace 'Las peliblancas son lindas', '${{ secrets.CLIMA_API_KEY }}' | Set-Content src/ponce9/Modelo.java
-      # 3. Compilar el ejecutable
+          (Get-Content ponce9/src/Modelo.java) -replace 'Las peliblancas son lindas', '${{ secrets.CLIMA_API_KEY }}' | Set-Content ponce9/src/Modelo.java
+
+      # 4. Compilar el proyecto automáticamente con Ant
+      - name: Compilar proyecto a JAR
+        run: ant jar
+
+      # 3. Sacar el JAR de la carpeta 'dist', moverlo a la raíz y renombrarlo a clima.jar
+      - name: Preparar JAR para GraalVM
+        run: |
+          Move-Item "dist\*.jar" -Destination "clima.jar"
+      # 5. Compilar el ejecutable
 
       - name: Compilar JAR a EXE nativo
         run: |
           native-image -jar clima.jar -H:ConfigurationFileDirectories=configuracion -H:IncludeLocales=es -H:NativeLinkerOption=/SUBSYSTEM:WINDOWS -H:NativeLinkerOption=/ENTRY:mainCRTStartup --no-fallback
 
-      # 4. Inyectar el ícono directamente en el .exe (usando el archivo en la raíz)
+      # 6. Inyectar el ícono directamente en el .exe (usando el archivo en la raíz)
       - name: Poner ícono al ejecutable
         run: |
           Invoke-WebRequest -Uri "https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe" -OutFile "rcedit.exe"
           .\rcedit.exe clima.exe --set-icon app.ico
 
-      # 5. Organizar carpeta LIB (Fuentes + Ícono)
+      # 7. Organizar carpeta LIB (Fuentes + Ícono)
       - name: Preparar carpeta lib
         run: |
           New-Item -ItemType Directory -Force -Path lib
@@ -49,12 +59,12 @@ jobs:
           # Movemos el ícono a lib para esconderlo en el instalador
           Move-Item "app.ico" -Destination lib\
 
-      # 6. Empaquetar todo con Inno Setup
+      # 8. Empaquetar todo con Inno Setup
       - name: Crear Instalador
         run: |
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" instalador.iss
 
-      # 7. Entregar el instalador final
+      # 9. Entregar el instalador final
       - name: Subir Instalador
         uses: actions/upload-artifact@v4
         with:
