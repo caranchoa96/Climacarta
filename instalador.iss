@@ -7,7 +7,7 @@ DefaultGroupName=ClimaApp
 OutputDir=Output
 OutputBaseFilename=Instalador_ClimaApp
 ; El ícono del instalador en sí
-SetupIconFile=app.ico
+SetupIconFile=lib/app.ico
 Compression=lzma
 SolidCompression=yes
 ; Evita que pida permisos de administrador si no son estrictamente necesarios
