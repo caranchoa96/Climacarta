@@ -142,6 +142,58 @@ public class WeatherAppUI {
 
     // --- PANEL DERECHO (Pronóstico con Filas Redondeadas) ---
     private static JPanel crearPanelDerecho() {
+
+        // ... dentro de tu clase ...
+
+        // 1. Creamos un sub-panel específico para la barra con BorderLayout
+        // El '5' es la separación en píxeles entre el campo de texto y el botón
+        JPanel panelBusqueda = new JPanel(new BorderLayout(5, 0));
+        panelBusqueda.setOpaque(false); // Para que respete el color de fondo de tu panel derecho
+
+        // 2. Creamos el campo de texto
+        JTextField campoBusqueda = new JTextField();
+        campoBusqueda.setPreferredSize(new Dimension(200, 30)); // Tamaño sugerido
+        campoBusqueda.setFont(new Font("Arial", Font.PLAIN, 14));
+        campoBusqueda.setToolTipText("Ej. Cartagena, Bogota, Madrid...");
+
+        // 3. Creamos el botón de buscar
+        JButton botonBuscar = new JButton("Buscar");
+        botonBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Manita al pasar el ratón
+
+        // 4. Armamos el panel de búsqueda
+        panelBusqueda.add(campoBusqueda, BorderLayout.CENTER);
+        panelBusqueda.add(botonBuscar, BorderLayout.EAST);
+
+        // 5. Agregamos el panel de búsqueda a tu panel derecho
+        // (Asumiendo que tu panel derecho se llama panelDerecho)
+        // panelDerecho.add(panelBusqueda); 
+
+        // --- LA MAGIA: CONECTAR LA INTERFAZ CON TU API ---
+
+        // Creamos la acción que se ejecutará al buscar
+        ActionListener accionBuscar = (ActionEvent e) -> {
+            String ciudad = campoBusqueda.getText().trim();
+            
+            if (!ciudad.isEmpty()) {
+                // Cambiamos el texto del botón temporalmente para dar feedback
+                botonBuscar.setText("Buscando...");
+                botonBuscar.setEnabled(false);
+                
+                // Aquí llamas a tu método que se conecta a la API y actualiza todo
+                // Ejemplo: actualizarClima(ciudad);
+                
+                // (Si tu método de la API bloquea la pantalla, lo ideal es correrlo en un Thread,
+                // pero si es rápido, puedes ponerlo directo. Al terminar, restauras el botón:)
+                botonBuscar.setText("Buscar");
+                botonBuscar.setEnabled(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Por favor, ingresa el nombre de una ciudad.");
+            }
+        };
+
+// 6. Asignamos la misma acción al botón y a la tecla ENTER en el campo de texto
+        botonBuscar.addActionListener(accionBuscar);
+        campoBusqueda.addActionListener(accionBuscar);
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setOpaque(false); // Transparente
