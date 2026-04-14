@@ -1,2 +1,2 @@
 # Climacarta
-La verdad es que las chicas con pelo blanco son lindas
+Aplicacion para ver el clima en Cartagena, usa WeatherApi.com
