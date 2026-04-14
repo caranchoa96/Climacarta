@@ -6,14 +6,16 @@ package ponce9;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Locale;
 
 /**
  *
  * @author moeko
  */
 public class Elementos {
+    public static String name;
+    public static String country;
+
+    
     public static LocalDateTime Date;
     public static String is_day;
     public static String cloud;
@@ -73,13 +75,18 @@ public class Elementos {
         */
         LocalDateTime fechaApi = LocalDateTime.parse(fecha, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         Date = fechaApi;
-        String a = fechaApi.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).localizedBy(Locale.getDefault()));
         //fechaApi.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).localizedBy(Locale.getDefault()));
         
         //System.out.println(fechaparse);
         //System.out.println(fechaApi.getDayOfWeek());
     }
+    public void setName(String name) {
+        Elementos.name = name;
+    }
 
+    public void setCountry(String country) {
+        Elementos.country = country;
+    }
     public void setIs_day(int is_day) {
         Elementos.is_day = is_day == 1 ? "☀️" : "🌙";
     }
@@ -92,7 +99,7 @@ public class Elementos {
     }
 
     public void setText(String text) {
-        switch(text){
+        /*switch(text){
             case "Cloudy" -> text = "Nublado";
             case "Patchy rain nearby" -> text = "Lluvia irregular cerca";
             case "Clear" -> text = "Despejado";
@@ -103,7 +110,7 @@ public class Elementos {
             case "Light drizzle" -> text = "Llovizna ligera";
             case "Light rain shower" -> text = "Llovizna";
             case "Thundery outbreaks in nearby" -> text = "Tormenta eléctrica cerca";
-        }
+        }*/
         Elementos.text = text;
     }
 

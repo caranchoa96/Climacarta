@@ -2,27 +2,40 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
+
+// ... dentro de tu clase Modelo ...
+
+
 package ponce9;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import tools.jackson.databind.ObjectMapper;
 import ponce9.Dto.ForecastDay;
-
-
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 /**
  *
  * @author moeko
  */
 public class Modelo {
-    public static String traerInfo(){
+    public static String traerInfo(String q,String uri) throws UnsupportedEncodingException{
+        q = URLEncoder.encode(q, StandardCharsets.UTF_8.toString());
         String json;
+        //+"Las peliblancas son lindas"+
         try{
-            String uri = "http://api.weatherapi.com/v1/forecast.json?key="+"Las peliblancas son lindas"+"&q=Cartagena&days=3&aqi=no&alerts=no";
+            if(uri.equals("")){
+                uri = "http://api.weatherapi.com/v1/forecast.json?key="+"Las peliblancas son lindas"+"+&days=3&aqi=no&alerts=no&lang=es&q="+q;
+            }
             HttpClient httpClient = HttpClient.newHttpClient(); 
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
@@ -32,17 +45,18 @@ public class Modelo {
                 HttpResponse.BodyHandlers.ofString());
             json = response.body();     
             return json;
-        }catch(Exception e){}
+        }catch(IOException | InterruptedException e){}
         return "";
+        
     }
    
     public static void mapInfo(String json) {
         File cuerpo = new File("cuerpo.json");
         ObjectMapper mapper = new ObjectMapper();
-        
-        if(json.equals("")){
+        if(json.equals("")||json.isEmpty()){
             if(cuerpo.exists()){
                 json = mapper.readTree(cuerpo).asString();
+                
             }else{
                 javax.swing.JDialog dialogo = new javax.swing.JDialog();
                 dialogo.setTitle("Mensaje");
@@ -55,18 +69,12 @@ public class Modelo {
                 javax.swing.JLabel etiquetaTexto = new javax.swing.JLabel("¡Ingrese con internet la primera vez!", javax.swing.SwingConstants.CENTER);
                 dialogo.add(etiquetaTexto, java.awt.BorderLayout.CENTER);
 
-                // Agregamos el botón de aceptar
-                javax.swing.JButton botonAceptar = new javax.swing.JButton("Aceptar");
-                botonAceptar.addActionListener(e -> dialogo.dispose());
-                javax.swing.JPanel panelInferior = new javax.swing.JPanel();
-                panelInferior.add(botonAceptar);
-                dialogo.add(panelInferior, java.awt.BorderLayout.SOUTH);
-
                 // Mostramos la ventana
                 dialogo.setVisible(true);
                 System.exit(0);
             }
         }else{
+            
             mapper.writeValue(cuerpo, json);
         }
         actElementos(mapper.readValue(json, Dto.class));
@@ -99,6 +107,8 @@ public class Modelo {
     }
     public static void actElementos(Dto obdto){
         Elementos carga = new Elementos();
+        carga.setName(obdto.location.name);
+        carga.setCountry(obdto.location.country);
         carga.setIs_day( (int) (obdto.current.is_day));
         carga.setCloud( (int) (obdto.current.cloud));
         carga.setTemp_c( (int) (obdto.current.temp_c));
@@ -109,5 +119,23 @@ public class Modelo {
         carga.setUv((int)(obdto.current.uv));
         carga.setDate(obdto.location.localtime);
         traerInfoDias(obdto.forecast.forecastday,carga);
+    }
+    public static List<DtoBusqueda> buscarInfo(String textoBuscado) throws UnsupportedEncodingException{
+        textoBuscado = URLEncoder.encode(textoBuscado, StandardCharsets.UTF_8.toString());
+        String URL = "http://api.weatherapi.com/v1/search.json?key="+"Las peliblancas son lindas"+"&q="+textoBuscado;
+        String jsonBusqueda = Modelo.traerInfo("", URL);
+        ObjectMapper mapperdto = new ObjectMapper();
+        
+        List<DtoBusqueda> resultado = new ArrayList<>();
+        if(!jsonBusqueda.equals("[]")){
+        
+        DtoBusqueda[] resulta = mapperdto.readValue(jsonBusqueda, DtoBusqueda[].class);
+        resultado.addAll(Arrays.asList(resulta));
+        }
+        // 2. Jackson convierte el JSON (que es un arreglo) a una Lista de Java
+        //ObjectMapper mapper = new ObjectMapper();
+        //List<ResultadoBusqueda> resultados = mapper.readValue(jsonBusqueda,
+        //new com.fasterxml.jackson.core.type.TypeReference<List<ResultadoBusqueda>>(){});
+        return resultado;
     }
 }

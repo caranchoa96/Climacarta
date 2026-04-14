@@ -327,6 +327,15 @@
         {
           "name": "y"
         }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "int",
+            "int"
+          ]
+        }
       ]
     },
     {
@@ -439,10 +448,88 @@
       "jniAccessible": true,
       "fields": [
         {
+          "name": "VK_A"
+        },
+        {
+          "name": "VK_BACK_SLASH"
+        },
+        {
+          "name": "VK_BACK_SPACE"
+        },
+        {
+          "name": "VK_C"
+        },
+        {
           "name": "VK_CONTEXT_MENU"
         },
         {
+          "name": "VK_COPY"
+        },
+        {
+          "name": "VK_CUT"
+        },
+        {
+          "name": "VK_DELETE"
+        },
+        {
+          "name": "VK_DOWN"
+        },
+        {
+          "name": "VK_END"
+        },
+        {
+          "name": "VK_ENTER"
+        },
+        {
+          "name": "VK_ESCAPE"
+        },
+        {
           "name": "VK_F10"
+        },
+        {
+          "name": "VK_H"
+        },
+        {
+          "name": "VK_HOME"
+        },
+        {
+          "name": "VK_INSERT"
+        },
+        {
+          "name": "VK_KP_DOWN"
+        },
+        {
+          "name": "VK_KP_LEFT"
+        },
+        {
+          "name": "VK_KP_RIGHT"
+        },
+        {
+          "name": "VK_KP_UP"
+        },
+        {
+          "name": "VK_LEFT"
+        },
+        {
+          "name": "VK_O"
+        },
+        {
+          "name": "VK_PASTE"
+        },
+        {
+          "name": "VK_RIGHT"
+        },
+        {
+          "name": "VK_SPACE"
+        },
+        {
+          "name": "VK_UP"
+        },
+        {
+          "name": "VK_V"
+        },
+        {
+          "name": "VK_X"
         },
         {
           "name": "extendedKeyCode"
@@ -510,6 +597,34 @@
             "int",
             "boolean",
             "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.event.MouseMotionListener[]"
+    },
+    {
+      "type": "java.awt.event.MouseWheelEvent",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.awt.Component",
+            "int",
+            "long",
+            "int",
+            "int",
+            "int",
+            "int",
+            "int",
+            "int",
+            "boolean",
+            "int",
+            "int",
+            "int",
+            "double"
           ]
         }
       ]
@@ -637,47 +752,6 @@
       ]
     },
     {
-      "type": "java.awt.image.BufferedImage",
-      "jniAccessible": true,
-      "fields": [
-        {
-          "name": "colorModel"
-        },
-        {
-          "name": "imageType"
-        },
-        {
-          "name": "raster"
-        }
-      ],
-      "methods": [
-        {
-          "name": "getRGB",
-          "parameterTypes": [
-            "int",
-            "int",
-            "int",
-            "int",
-            "int[]",
-            "int",
-            "int"
-          ]
-        },
-        {
-          "name": "setRGB",
-          "parameterTypes": [
-            "int",
-            "int",
-            "int",
-            "int",
-            "int[]",
-            "int",
-            "int"
-          ]
-        }
-      ]
-    },
-    {
       "type": "java.awt.image.ColorModel",
       "jniAccessible": true,
       "fields": [
@@ -736,9 +810,6 @@
           "name": "allgrayopaque"
         },
         {
-          "name": "colorData"
-        },
-        {
           "name": "lookupcache"
         },
         {
@@ -749,96 +820,6 @@
         },
         {
           "name": "transparent_index"
-        }
-      ]
-    },
-    {
-      "type": "java.awt.image.Raster",
-      "jniAccessible": true,
-      "fields": [
-        {
-          "name": "dataBuffer"
-        },
-        {
-          "name": "height"
-        },
-        {
-          "name": "minX"
-        },
-        {
-          "name": "minY"
-        },
-        {
-          "name": "numBands"
-        },
-        {
-          "name": "numDataElements"
-        },
-        {
-          "name": "sampleModel"
-        },
-        {
-          "name": "sampleModelTranslateX"
-        },
-        {
-          "name": "sampleModelTranslateY"
-        },
-        {
-          "name": "width"
-        }
-      ]
-    },
-    {
-      "type": "java.awt.image.SampleModel",
-      "jniAccessible": true,
-      "fields": [
-        {
-          "name": "height"
-        },
-        {
-          "name": "width"
-        }
-      ],
-      "methods": [
-        {
-          "name": "getPixels",
-          "parameterTypes": [
-            "int",
-            "int",
-            "int",
-            "int",
-            "int[]",
-            "java.awt.image.DataBuffer"
-          ]
-        },
-        {
-          "name": "setPixels",
-          "parameterTypes": [
-            "int",
-            "int",
-            "int",
-            "int",
-            "int[]",
-            "java.awt.image.DataBuffer"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "java.awt.image.SinglePixelPackedSampleModel",
-      "jniAccessible": true,
-      "fields": [
-        {
-          "name": "bitMasks"
-        },
-        {
-          "name": "bitOffsets"
-        },
-        {
-          "name": "bitSizes"
-        },
-        {
-          "name": "maxBitSize"
         }
       ]
     },
@@ -899,7 +880,52 @@
       "type": "java.util.Locale[]"
     },
     {
+      "type": "javax.swing.plaf.basic.BasicMenuItemUI",
+      "methods": [
+        {
+          "name": "createUI",
+          "parameterTypes": [
+            "javax.swing.JComponent"
+          ]
+        },
+        {
+          "name": "loadActionMap",
+          "parameterTypes": [
+            "javax.swing.plaf.basic.LazyActionMap"
+          ]
+        }
+      ]
+    },
+    {
       "type": "javax.swing.plaf.basic.BasicPanelUI",
+      "methods": [
+        {
+          "name": "createUI",
+          "parameterTypes": [
+            "javax.swing.JComponent"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "javax.swing.plaf.basic.BasicPopupMenuUI",
+      "methods": [
+        {
+          "name": "createUI",
+          "parameterTypes": [
+            "javax.swing.JComponent"
+          ]
+        },
+        {
+          "name": "loadActionMap",
+          "parameterTypes": [
+            "javax.swing.plaf.basic.LazyActionMap"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "javax.swing.plaf.metal.MetalButtonUI",
       "methods": [
         {
           "name": "createUI",
@@ -932,6 +958,28 @@
       ]
     },
     {
+      "type": "javax.swing.plaf.metal.MetalTextFieldUI",
+      "methods": [
+        {
+          "name": "createUI",
+          "parameterTypes": [
+            "javax.swing.JComponent"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "javax.swing.plaf.metal.MetalToolTipUI",
+      "methods": [
+        {
+          "name": "createUI",
+          "parameterTypes": [
+            "javax.swing.JComponent"
+          ]
+        }
+      ]
+    },
+    {
       "type": "ponce9.Dto",
       "fields": [
         {
@@ -954,9 +1002,6 @@
     {
       "type": "ponce9.Dto$Condition",
       "fields": [
-        {
-          "name": "icon"
-        },
         {
           "name": "text"
         }
@@ -1014,9 +1059,6 @@
         },
         {
           "name": "mintemp_c"
-        },
-        {
-          "name": "uv"
         }
       ],
       "methods": [
@@ -1078,6 +1120,26 @@
       ]
     },
     {
+      "type": "ponce9.DtoBusqueda",
+      "fields": [
+        {
+          "name": "country"
+        },
+        {
+          "name": "name"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ponce9.DtoBusqueda[]"
+    },
+    {
       "type": "ponce9.WeatherAppUI",
       "jniAccessible": true,
       "methods": [
@@ -1090,7 +1152,7 @@
       ]
     },
     {
-      "type": "ponce9.WeatherAppUI$2"
+      "type": "ponce9.WeatherAppUI$PanelPronostico"
     },
     {
       "type": "ponce9.WeatherAppUI$PanelRedondeado"
@@ -1241,56 +1303,6 @@
       "jniAccessible": true
     },
     {
-      "type": "sun.awt.image.BufImgSurfaceData$ICMColorData",
-      "jniAccessible": true,
-      "fields": [
-        {
-          "name": "pData"
-        }
-      ],
-      "methods": [
-        {
-          "name": "<init>",
-          "parameterTypes": [
-            "long"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "sun.awt.image.ImageRepresentation",
-      "jniAccessible": true,
-      "fields": [
-        {
-          "name": "numSrcLUT"
-        },
-        {
-          "name": "srcLUTtransIndex"
-        }
-      ]
-    },
-    {
-      "type": "sun.awt.image.IntegerComponentRaster",
-      "jniAccessible": true,
-      "fields": [
-        {
-          "name": "data"
-        },
-        {
-          "name": "dataOffsets"
-        },
-        {
-          "name": "pixelStride"
-        },
-        {
-          "name": "scanlineStride"
-        },
-        {
-          "name": "type"
-        }
-      ]
-    },
-    {
       "type": "sun.awt.image.SunVolatileImage",
       "jniAccessible": true,
       "fields": [
@@ -1426,6 +1438,9 @@
       ]
     },
     {
+      "type": "sun.awt.windows.WDialogPeer"
+    },
+    {
       "type": "sun.awt.windows.WFontPeer",
       "jniAccessible": true,
       "fields": [
@@ -1453,6 +1468,16 @@
           "parameterTypes": [
             "java.awt.Component"
           ]
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WInputMethod",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "inquireCandidatePosition",
+          "parameterTypes": []
         }
       ]
     },
@@ -1521,6 +1546,12 @@
         {
           "name": "draggedToNewScreen",
           "parameterTypes": []
+        },
+        {
+          "name": "getActiveWindowHandles",
+          "parameterTypes": [
+            "java.awt.Component"
+          ]
         },
         {
           "name": "notifyWindowStateChanged",
@@ -2796,6 +2827,12 @@
       ]
     },
     {
+      "type": "sun.text.resources.BreakIteratorInfo"
+    },
+    {
+      "type": "sun.text.resources.BreakIteratorResources"
+    },
+    {
       "type": "sun.text.resources.FormatData"
     },
     {
@@ -2846,11 +2883,16 @@
       "glob": "META-INF/services/java.nio.channels.spi.SelectorProvider"
     },
     {
-      "glob": "ponce9/casa.png"
+      "module": "java.base",
+      "glob": "jdk/internal/icu/impl/data/icudt76b/ubidi.icu"
     },
     {
       "module": "java.base",
-      "glob": "jdk/internal/icu/impl/data/icudt76b/ubidi.icu"
+      "glob": "jdk/internal/icu/impl/data/icudt76b/uprops.icu"
+    },
+    {
+      "module": "java.base",
+      "glob": "sun/text/resources/WordBreakIteratorData"
     },
     {
       "module": "java.desktop",
