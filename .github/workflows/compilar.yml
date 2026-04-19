@@ -70,10 +70,7 @@ jobs:
         with:
           name: Instalador-ClimaApp
           path: Output/Instalador_ClimaApp.exe
-      on:
-        push:
-          tags:
-            - 'v*'
+
       - name: Crear Release y Subir Instalable
         uses: softprops/action-gh-release@v2
         with:
