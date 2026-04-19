@@ -73,6 +73,7 @@ jobs:
 
       - name: Crear Release y Subir Instalable
         uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
         with:
         # ¡OJO AQUÍ! Cambia "WeatherApp" por el nombre exacto que le da Maven a tu .exe, nya
           files: Output/Instalador_ClimaApp.exe 
