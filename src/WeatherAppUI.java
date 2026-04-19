@@ -16,8 +16,7 @@ import java.util.List;
 
 public class WeatherAppUI {
     static JFrame frame = new JFrame("App de Clima Minimalista");
-    
-    // --- NUEVA PALETA DE COLORES "ANIME SKY" (Pastel) ---
+
     // Usamos el estado is_day para cambiar el fondo
     private static final Color COLOR_FONDO_DIA = new Color(135, 206, 250); // LightSkyBlue (Cielo de día anime)
     private static final Color COLOR_FONDO_NOCHE = new Color(44, 62, 80); // Midnight Blue (Cielo de noche)
