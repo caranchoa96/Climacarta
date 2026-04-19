@@ -42,7 +42,6 @@ public class WeatherAppUI {
     
     
     public static void main(String[] args) throws UnsupportedEncodingException {
-        // Tu lógica original de datos se mantiene intacta
         // Carga y escritura
         // Si no se puede cargar se escriben los datos anteriores
         // No se le dice un carajo al usuario
