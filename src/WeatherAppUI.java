@@ -166,7 +166,19 @@ public class WeatherAppUI {
     private static JPanel crearPanelDerecho() {
 
         // ... dentro de tu clase ...
+        //Boton de cerrar
+        JButton botonCerrar = new JButton("Cerrar");
+        botonCerrar.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Manita al pasar el ratón
+        //botonBuscar.setPreferredSize(new Dimension(75,5));
+        // 4. Armamos el panel de búsqueda
+        // --- Estilo del Campo de Texto ---
+        
 
+        // --- Estilo del Botón ---
+        // Te sugiero un color un pelín más claro que el fondo para que resalte
+        botonCerrar.setBackground(new Color(80, 90, 105)); // Ajusta este RGB a tu gusto
+        botonCerrar.setForeground(Color.WHITE);
+        botonCerrar.setFocusPainted(false);
         // 1. Creamos un sub-panel específico para la barra con BorderLayout
         // El '5' es la separación en píxeles entre el campo de texto y el botón
         JPanel panelBusqueda = new JPanel(new BorderLayout(0,0));
@@ -292,6 +304,7 @@ public class WeatherAppUI {
         
         panelBusqueda.add(campoBusqueda, BorderLayout.WEST);
         
+        
 
         // 5. Agregamos el panel de búsqueda a tu panel derecho
         // (Asumiendo que tu panel derecho se llama panelDerecho)
@@ -331,8 +344,11 @@ public class WeatherAppUI {
         panelTituloDerecho.setOpaque(false); // Transparente para no dañar tu fondo
         panelTituloDerecho.setMaximumSize(new Dimension(Integer.MAX_VALUE,40));
         JLabel titulo = crearLabel("Próximos Días", 20, true, TEXTO_PRINCIPAL);
+        titulo.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 88));
         panelTituloDerecho.add(titulo);
-        
+        ActionListener accionCerrar = (ActionEvent e) -> {System.exit(0);};
+        botonCerrar.addActionListener(accionCerrar);
+        panelTituloDerecho.add(botonCerrar, BorderLayout.AFTER_LINE_ENDS);
         panelDerecho.add(panelTituloDerecho);
         panelBusqueda.setMaximumSize(new Dimension(310,30));
         panelDerecho.add(Box.createRigidArea(new Dimension(0, 15)));
@@ -359,6 +375,7 @@ public class WeatherAppUI {
         
         panelDerecho.add(Box.createRigidArea(new Dimension(0, 25)));
         panelDerecho.add(panelBusqueda);
+        
         return panelDerecho;
     }
 
@@ -377,24 +394,20 @@ public class WeatherAppUI {
     // --- NUEVO COMPONENTE: TARJETA DE DETALLE REDONDEADA ---
     // Esta es una "clase auxiliar" que creé para lograr las esquinas redondeadas
     static class PanelRedondeado extends JPanel {
-        private static String tituloText;
-        private static String valorText;
         private final JLabel lblTitulo;
         private final JLabel lblValor;
         
         PanelRedondeado(String titulo, String valor) {
-            tituloText = titulo;
-            valorText = valor;
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             this.setBackground(FONDO_TARJETA); // Fondo semitransparente
             this.setBorder(new EmptyBorder(15, 15, 15, 15)); // Padding interno
             this.setAlignmentX(Component.LEFT_ALIGNMENT);
             this.setMaximumSize(new Dimension(300, 85)); // Un poco más grandes
             this.setOpaque(false); // Crucial: Java Swing dibuja bordes cuadrados por defecto
-            lblTitulo = crearLabel(tituloText, 15, false, TEXTO_SECUNDARIO); 
+            lblTitulo = crearLabel(titulo, 15, false, TEXTO_SECUNDARIO); 
             this.add(lblTitulo);
             this.add(Box.createRigidArea(new Dimension(0, 8))); // Espacio entre título y valor
-            lblValor = crearLabel(valorText, 20, true, TEXTO_PRINCIPAL);
+            lblValor = crearLabel(valor, 20, true, TEXTO_PRINCIPAL);
             this.add(lblValor);
         }
 

@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import tools.jackson.databind.ObjectMapper;
-import ponce9.Dto.ForecastDay;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import ponce9.Dto.ForecastDay;
 /**
  *
  * @author moeko
@@ -34,7 +34,7 @@ public class Modelo {
         //+"Las peliblancas son lindas"+
         try{
             if(uri.equals("")){
-                uri = "http://api.weatherapi.com/v1/forecast.json?key="+"Las peliblancas son lindas"+"+&days=3&aqi=no&alerts=no&lang=es&q="+q;
+                uri = "http://api.weatherapi.com/v1/forecast.json?key="+"Las peliblancas son lindas"+"&days=3&aqi=no&alerts=no&lang=es&q="+q;
             }
             HttpClient httpClient = HttpClient.newHttpClient(); 
             HttpRequest request = HttpRequest.newBuilder()
@@ -127,7 +127,7 @@ public class Modelo {
         ObjectMapper mapperdto = new ObjectMapper();
         
         List<DtoBusqueda> resultado = new ArrayList<>();
-        if(!jsonBusqueda.equals("[]")){
+        if(!jsonBusqueda.equals("[]")&&!jsonBusqueda.isEmpty()){
         
         DtoBusqueda[] resulta = mapperdto.readValue(jsonBusqueda, DtoBusqueda[].class);
         resultado.addAll(Arrays.asList(resulta));
