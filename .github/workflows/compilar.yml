@@ -76,7 +76,8 @@ jobs:
         if: github.ref_type == 'tag'
         with:
         # ¡OJO AQUÍ! Cambia "WeatherApp" por el nombre exacto que le da Maven a tu .exe, nya
-          files: Output/Instalador_ClimaApp.exe 
+          working_directory: Output
+          files: Instalador_ClimaApp.exe 
           generate_release_notes: true # Esto crea notas de parche automáticas súper bonitas, nya
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
