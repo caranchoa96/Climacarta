@@ -9,7 +9,6 @@
 
 package ponce9;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -34,7 +33,7 @@ public class Modelo {
         //+"Las peliblancas son lindas"+
         try{
             if(uri.equals("")){
-                uri = "http://api.weatherapi.com/v1/forecast.json?key="+"Las peliblancas son lindas"+"&days=3&aqi=no&alerts=no&lang=es&q="+q;
+                uri = "http://api.weatherapi.com/v1/forecast.json?key=Las peliblancas son lindas&days=3&aqi=no&alerts=no&lang=es&q="+q;
             }
             HttpClient httpClient = HttpClient.newHttpClient(); 
             HttpRequest request = HttpRequest.newBuilder()
@@ -51,31 +50,19 @@ public class Modelo {
     }
    
     public static void mapInfo(String json) {
-        File cuerpo = new File("cuerpo.json");
         ObjectMapper mapper = new ObjectMapper();
-        if(json.equals("")||json.isEmpty()){
-            if(cuerpo.exists()){
-                json = mapper.readTree(cuerpo).asString();
-                
-            }else{
-                javax.swing.JDialog dialogo = new javax.swing.JDialog();
-                dialogo.setTitle("Mensaje");
-                dialogo.setModal(true); // Para que bloquee el resto de la app hasta que lo cierres
-                dialogo.setSize(350, 150);
-                dialogo.setLocationRelativeTo(null); // Centrar en la pantalla
-                dialogo.setLayout(new java.awt.BorderLayout());
+        if(json == null || json.isEmpty()){
+            javax.swing.JDialog dialogo = new javax.swing.JDialog();
+            dialogo.setTitle("Error");
+            dialogo.setModal(true);
+            dialogo.setSize(350, 150);
+            dialogo.setLocationRelativeTo(null);
+            dialogo.setLayout(new java.awt.BorderLayout());
 
-                // Agregamos el texto centrado
-                javax.swing.JLabel etiquetaTexto = new javax.swing.JLabel("¡Ingrese con internet la primera vez!", javax.swing.SwingConstants.CENTER);
-                dialogo.add(etiquetaTexto, java.awt.BorderLayout.CENTER);
-
-                // Mostramos la ventana
-                dialogo.setVisible(true);
-                System.exit(0);
-            }
-        }else{
-            
-            mapper.writeValue(cuerpo, json);
+            javax.swing.JLabel etiquetaTexto = new javax.swing.JLabel("¡No se pudo obtener datos del clima!", javax.swing.SwingConstants.CENTER);
+            dialogo.add(etiquetaTexto, java.awt.BorderLayout.CENTER);
+            dialogo.setVisible(true);
+            return;
         }
         actElementos(mapper.readValue(json, Dto.class));
     }
@@ -122,7 +109,7 @@ public class Modelo {
     }
     public static List<DtoBusqueda> buscarInfo(String textoBuscado) throws UnsupportedEncodingException{
         textoBuscado = URLEncoder.encode(textoBuscado, StandardCharsets.UTF_8.toString());
-        String URL = "http://api.weatherapi.com/v1/search.json?key="+"Las peliblancas son lindas"+"&q="+textoBuscado;
+        String URL = "http://api.weatherapi.com/v1/search.json?key=Las peliblancas son lindas&q="+textoBuscado;
         String jsonBusqueda = Modelo.traerInfo("", URL);
         ObjectMapper mapperdto = new ObjectMapper();
         

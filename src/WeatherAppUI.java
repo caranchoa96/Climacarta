@@ -13,6 +13,8 @@ import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class WeatherAppUI {
     static JFrame frame = new JFrame("App de Clima Minimalista");
@@ -34,19 +36,27 @@ public class WeatherAppUI {
     private static Timer timer;
     private static JPanel panelPrincipal;
     private static JPanel panelCentro;
+    private static JPanel panelContenido;
+    private static JPanel barraSuperior;
     private static PanelRedondeado panelCentroHumedo;
     private static PanelRedondeado panelCentroOreado;
     private static PanelRedondeado panelCentroUv;
     private static PanelPronostico mañana;
     private static PanelPronostico pasadoMañana;
+    private static JComboBox<String> comboCiudades;
+    private static JButton botonGuardar;
+    private static JLabel lblEstadoGuardado;
+    private static String ultimaJson;
+    private static String ciudadActual;
+    private static final Map<String, String> ciudadesGuardadas = new LinkedHashMap<>();
     
     
     public static void main(String[] args) throws UnsupportedEncodingException {
-        // Carga y escritura
-        // Si no se puede cargar se escriben los datos anteriores
-        // No se le dice un carajo al usuario
         System.setProperty("java.home", ".");
-        Modelo.mapInfo(Modelo.traerInfo("Cartagena",""));
+        String json = Modelo.traerInfo("Cartagena","");
+        ultimaJson = json;
+        ciudadActual = "Cartagena";
+        Modelo.mapInfo(json);
         SwingUtilities.invokeLater(() -> createAndShowGUI());
     }
 
@@ -62,28 +72,61 @@ public class WeatherAppUI {
         // 1. Calculamos el color (Día o Noche)
         Color colorPrincipal = Elementos.is_day.equals("☀️") ? COLOR_FONDO_DIA : COLOR_FONDO_NOCHE;
 
-        // 2. EL TRUCO: Creamos un Panel Maestro
+        // 2. Panel Maestro con BorderLayout
         panelPrincipal = new JPanel();
-        panelPrincipal.setLayout(new GridLayout(1, 3, 20, 0)); // Redujimos el espacio entre columnas a 20
-        panelPrincipal.setBackground(colorPrincipal); // Pintamos ESTE panel, no la ventana
-        
-        // El margen se lo aplicamos al Panel Maestro, no al RootPane
-        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40)); 
+        panelPrincipal.setLayout(new BorderLayout());
+        panelPrincipal.setBackground(colorPrincipal);
+        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        // 3. Añadimos tus 3 paneles al Panel Maestro
-        panelPrincipal.add(crearPanelIzquierdo());
-        panelPrincipal.add(crearPanelCentral());
-        panelPrincipal.add(crearPanelDerecho());
+        // 3. Barra superior (title bar) para arrastrar y cerrar
+        JPanel barraSuperior = crearBarraSuperior(colorPrincipal);
+        panelPrincipal.add(barraSuperior, BorderLayout.NORTH);
 
-        // 4. Establecemos el Panel Maestro como el contenido total de la ventana
+        // 4. Panel de contenido con los 3 paneles
+        panelContenido = new JPanel();
+        panelContenido.setLayout(new GridLayout(1, 3, 20, 0));
+        panelContenido.setBackground(colorPrincipal);
+        panelContenido.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
+        panelContenido.add(crearPanelIzquierdo());
+        panelContenido.add(crearPanelCentral());
+        panelContenido.add(crearPanelDerecho());
+        panelPrincipal.add(panelContenido, BorderLayout.CENTER);
+
+        // 5. Establecemos el Panel Maestro como el contenido total de la ventana
         frame.setContentPane(panelPrincipal);
-        // Listener para poder mover la ventana con el mouse
-        MoverVentanaListener moverListener = new MoverVentanaListener(frame);
-        frame.addMouseListener(moverListener);
-        frame.addMouseMotionListener(moverListener);
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    // --- BARRA SUPERIOR (Title Bar para arrastrar y cerrar) ---
+    private static JPanel crearBarraSuperior(Color colorFondo) {
+        barraSuperior = new JPanel(new BorderLayout(10, 0));
+        barraSuperior.setBackground(colorFondo);
+        barraSuperior.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
+        barraSuperior.setPreferredSize(new Dimension(1050, 38));
+
+        JLabel titulo = new JLabel("Climacarta");
+        titulo.setFont(new Font("SansSerif", Font.BOLD, 14));
+        titulo.setForeground(TEXTO_PRINCIPAL);
+        titulo.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+        barraSuperior.add(titulo, BorderLayout.WEST);
+
+        JButton botonCerrar = new JButton("\u2715");
+        botonCerrar.setFont(new Font("SansSerif", Font.BOLD, 14));
+        botonCerrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonCerrar.setBackground(new Color(80, 90, 105));
+        botonCerrar.setForeground(Color.WHITE);
+        botonCerrar.setFocusPainted(false);
+        botonCerrar.setBorder(BorderFactory.createEmptyBorder(4, 12, 4, 12));
+        botonCerrar.addActionListener(e -> System.exit(0));
+        barraSuperior.add(botonCerrar, BorderLayout.EAST);
+
+        MoverVentanaListener moverListener = new MoverVentanaListener(frame);
+        barraSuperior.addMouseListener(moverListener);
+        barraSuperior.addMouseMotionListener(moverListener);
+
+        return barraSuperior;
     }
 
     // --- PANEL IZQUIERDO (Hero Section) ---
@@ -99,8 +142,6 @@ public class WeatherAppUI {
         lblFecha = crearLabel(fecha.substring(0,1).toUpperCase()+fecha.substring(1), 15, false, TEXTO_SECUNDARIO);
         
         lblHora = crearLabel("Cargando hora...", 15, true, TEXTO_SECUNDARIO);
-        //LocalTime ahora = LocalTime.parse(Elementos.Date.format(DateTimeFormatter.ISO_TIME));
-        // Todo ese formateo y parseo se resume a esto:
         LocalTime ahora = Elementos.Date.toLocalTime();
         
         timer = new Timer(1000, new ActionListener() {
@@ -163,131 +204,82 @@ public class WeatherAppUI {
     // --- PANEL DERECHO (Pronóstico con Filas Redondeadas) ---
     private static JPanel crearPanelDerecho() {
 
-        // ... dentro de tu clase ...
-        //Boton de cerrar
-        JButton botonCerrar = new JButton("Cerrar");
-        botonCerrar.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Manita al pasar el ratón
-        //botonBuscar.setPreferredSize(new Dimension(75,5));
-        // 4. Armamos el panel de búsqueda
-        // --- Estilo del Campo de Texto ---
-        
-
-        // --- Estilo del Botón ---
-        // Te sugiero un color un pelín más claro que el fondo para que resalte
-        botonCerrar.setBackground(new Color(80, 90, 105)); // Ajusta este RGB a tu gusto
-        botonCerrar.setForeground(Color.WHITE);
-        botonCerrar.setFocusPainted(false);
-        // 1. Creamos un sub-panel específico para la barra con BorderLayout
-        // El '5' es la separación en píxeles entre el campo de texto y el botón
         JPanel panelBusqueda = new JPanel(new BorderLayout(0,0));
-        panelBusqueda.setOpaque(false); // Para que respete el color de fondo de tu panel derecho
+        panelBusqueda.setOpaque(false);
 
-        // 2. Creamos el campo de texto
         JTextField campoBusqueda = new JTextField(15);
-        campoBusqueda.setPreferredSize(new Dimension(300, 25)); // Tamaño sugerido
-        campoBusqueda.setFont(new Font("Arial", Font.PLAIN, 14));
-        campoBusqueda.setToolTipText("Ej. Cartagena, Bogota, Madrid...");
-        campoBusqueda.setBackground(FONDO_TARJETA); // Usa tu color de fondo de tarjeta
-        campoBusqueda.setForeground(Color.WHITE);   // Texto blanco
-        //campoBusqueda.setCaretColor(Color.WHITE);   // El cursor (la barrita que titila) en blanco
-        campoBusqueda.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Quita el borde gris 3D y da margen interno
-        // 3. Creamos el botón de buscar
-        JButton botonBuscar = new JButton("Buscar");
-        botonBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Manita al pasar el ratón
-        //botonBuscar.setPreferredSize(new Dimension(75,5));
-        // 4. Armamos el panel de búsqueda
-        // --- Estilo del Campo de Texto ---
-        
-
-        // --- Estilo del Botón ---
-        // Te sugiero un color un pelín más claro que el fondo para que resalte
-        botonBuscar.setBackground(new Color(80, 90, 105)); // Ajusta este RGB a tu gusto
-        botonBuscar.setForeground(Color.WHITE);
-        botonBuscar.setFocusPainted(false); // Quita el cuadrito punteado feo al hacerle clic
-        //botonBuscar.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
-        // 1. Agregar un número de columnas (ej. 15) al crearlo es el truco principal
-
-        // 2. Obligar al componente a no crecer más de la cuenta
         campoBusqueda.setPreferredSize(new Dimension(180,30));
         campoBusqueda.setMinimumSize(new Dimension(180,30));
-        campoBusqueda.setMaximumSize(new Dimension(180,30)); // ¡Este es el que evita que empuje al botón!
-
-        // 3. Forzar los colores para evitar el "pantallazo blanco" al escribir
-        campoBusqueda.setBackground(new Color(80, 90, 105)); // Usa tu color FONDO_TARJETA aquí
+        campoBusqueda.setMaximumSize(new Dimension(180,30));
+        campoBusqueda.setFont(new Font("Arial", Font.PLAIN, 14));
+        campoBusqueda.setToolTipText("Ej. Cartagena, Bogota, Madrid...");
+        campoBusqueda.setBackground(new Color(80, 90, 105));
         campoBusqueda.setForeground(Color.WHITE);
         campoBusqueda.setCaretColor(Color.WHITE);
-
-        // Opcional: Un margen interno para que el texto no se pegue a los bordes
         campoBusqueda.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        // ... (Código donde creas el campoBusqueda y botonBuscar) ...
 
-        // Creamos el menú flotante una sola vez
+        JButton botonBuscar = new JButton("Buscar");
+        botonBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonBuscar.setBackground(new Color(80, 90, 105));
+        botonBuscar.setForeground(Color.WHITE);
+        botonBuscar.setFocusPainted(false);
+
         JPopupMenu menuResultados = new JPopupMenu();
-        menuResultados.setBackground(FONDO_TARJETA); // Tu color oscuro
-        menuResultados.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 120))); // Borde sutil
+        menuResultados.setBackground(FONDO_TARJETA);
+        menuResultados.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 120)));
 
         ActionListener accionBuscar = (ActionEvent e) -> {
-            
             String textoBuscado = campoBusqueda.getText().trim();
             if (!textoBuscado.isEmpty()) {
                 botonBuscar.setText("...");
                 botonBuscar.setEnabled(false);
                 try {
-                    // 1. Llamas a la API de BÚSQUEDA de WeatherAPI
-                    menuResultados.removeAll(); // Limpiamos búsquedas anteriores
+                    menuResultados.removeAll();
                     List<DtoBusqueda> resultado = Modelo.buscarInfo(textoBuscado);
                     if (resultado.isEmpty()) {
                         javax.swing.JDialog dialogo = new javax.swing.JDialog();
                         dialogo.setTitle("Busqueda fallida");
-                        dialogo.setModal(true); // Para que bloquee el resto de la app hasta que lo cierres
+                        dialogo.setModal(true);
                         dialogo.setSize(350, 150);
-                        dialogo.setLocationRelativeTo(null); // Centrar en la pantalla
+                        dialogo.setLocationRelativeTo(null);
                         dialogo.setLayout(new java.awt.BorderLayout());
-
-                        // Agregamos el texto centrado
                         javax.swing.JLabel etiquetaTexto = new javax.swing.JLabel("¡No se encontró ninguna ciudad!", javax.swing.SwingConstants.CENTER);
                         dialogo.add(etiquetaTexto, java.awt.BorderLayout.CENTER);
-
-                        // Mostramos la ventana
                         dialogo.setVisible(true);
-                        
                     } else if (resultado.size()==1) {
-                        // ¡Solo hay una coincidencia! Buscamos el clima de frente
-                        String ciudadExacta = resultado.get(0).getNombreCompleto();
+                        DtoBusqueda res = resultado.get(0);
+                        String ciudadExacta = res.getName();
                         campoBusqueda.setText(ciudadExacta);
-                        // AQUÍ LLAMAS A TU MÉTODO PRINCIPAL QUE TRAE EL CLIMA ACTUAL/PRONÓSTICO
-                        Modelo.mapInfo(Modelo.traerInfo(textoBuscado,""));
+                        String json = Modelo.traerInfo(ciudadExacta,"");
+                        ultimaJson = json;
+                        ciudadActual = ciudadExacta;
+                        Modelo.mapInfo(json);
                         actVentana();
-                        
+                        lblEstadoGuardado.setText(" ");
                     } else {
-                        // Hay varias opciones (ej. hay muchos "San Juan"). Armamos el menú.
                         for (DtoBusqueda res : resultado) {
                             JMenuItem item = new JMenuItem(res.getNombreCompleto());
                             item.setBackground(FONDO_TARJETA);
                             item.setForeground(Color.WHITE);
                             item.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                            
-                            // Acción al hacer clic en una opción del menú
                             item.addActionListener(eventoMenu -> {
                                 campoBusqueda.setText(res.getName());
                                 menuResultados.setVisible(false);
-                                
                                 try {
-                                    // AQUÍ LLAMAS A TU MÉTODO PRINCIPAL QUE TRAE EL CLIMA ACTUAL/PRONÓSTICO
-                                    // traerInfoClima(res.getName());
-                                    Modelo.mapInfo(Modelo.traerInfo(res.getName(),""));
+                                    String json = Modelo.traerInfo(res.getName(),"");
+                                    ultimaJson = json;
+                                    ciudadActual = res.getName();
+                                    Modelo.mapInfo(json);
                                 } catch (UnsupportedEncodingException ex) {
                                     System.getLogger(WeatherAppUI.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                                 }
                                 actVentana();
+                                lblEstadoGuardado.setText(" ");
                             });
-                            
                             menuResultados.add(item);
                         }
-                        // Mostramos el menú justo debajo de la barra
                         menuResultados.show(campoBusqueda, 0, campoBusqueda.getHeight());
                     }
-                    
                 } catch (UnsupportedEncodingException ex) {
                 } finally {
                     botonBuscar.setText("Buscar");
@@ -296,84 +288,119 @@ public class WeatherAppUI {
             }
         };
 
-        //botonBuscar.addActionListener(accionBuscar);
-        //campoBusqueda.addActionListener(accionBuscar);
-        panelBusqueda.add(botonBuscar, BorderLayout.EAST);
-        
-        panelBusqueda.add(campoBusqueda, BorderLayout.WEST);
-        
-        
-
-        // 5. Agregamos el panel de búsqueda a tu panel derecho
-        // (Asumiendo que tu panel derecho se llama panelDerecho)
- 
-
-        // --- LA MAGIA: CONECTAR LA INTERFAZ CON TU API ---
-
-        // Creamos la acción que se ejecutará al buscar
-        /*ActionListener accionBuscar = (ActionEvent e) -> {
-            String ciudad = campoBusqueda.getText().trim();
-            
-            if (!ciudad.isEmpty()) {
-                // Cambiamos el texto del botón temporalmente para dar feedback
-                botonBuscar.setText("Buscando...");
-                botonBuscar.setEnabled(false);
-                
-                // Aquí llamas a tu método que se conecta a la API y actualiza todo
-                // Ejemplo: actualizarClima(ciudad);
-                
-                // (Si tu método de la API bloquea la pantalla, lo ideal es correrlo en un Thread,
-                // pero si es rápido, puedes ponerlo directo. Al terminar, restauras el botón:)
-                botonBuscar.setText("Buscar");
-                botonBuscar.setEnabled(true);
-            } else {
-                JOptionPane.showMessageDialog(null, "Por favor, ingresa el nombre de una ciudad.");
-            }
-        };*/
-
-// 6. Asignamos la misma acción al botón y a la tecla ENTER en el campo de texto
         botonBuscar.addActionListener(accionBuscar);
         campoBusqueda.addActionListener(accionBuscar);
+        panelBusqueda.add(botonBuscar, BorderLayout.EAST);
+        panelBusqueda.add(campoBusqueda, BorderLayout.WEST);
+        panelBusqueda.setMaximumSize(new Dimension(310,30));
+
         JPanel panelDerecho = new JPanel();
         panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS));
-        panelDerecho.setOpaque(false); // Transparente
-        
+        panelDerecho.setOpaque(false);
+
         JPanel panelTituloDerecho = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        panelTituloDerecho.setOpaque(false); // Transparente para no dañar tu fondo
+        panelTituloDerecho.setOpaque(false);
         panelTituloDerecho.setMaximumSize(new Dimension(Integer.MAX_VALUE,40));
         JLabel titulo = crearLabel("Próximos Días", 20, true, TEXTO_PRINCIPAL);
-        titulo.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 88));
+        titulo.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         panelTituloDerecho.add(titulo);
-        ActionListener accionCerrar = (ActionEvent e) -> {System.exit(0);};
-        botonCerrar.addActionListener(accionCerrar);
-        panelTituloDerecho.add(botonCerrar, BorderLayout.AFTER_LINE_ENDS);
         panelDerecho.add(panelTituloDerecho);
-        panelBusqueda.setMaximumSize(new Dimension(310,30));
         panelDerecho.add(Box.createRigidArea(new Dimension(0, 15)));
-        
-        
-        // Convertimos cada fila del pronóstico en una pequeña tarjeta redondeada
+
         mañana = new PanelPronostico(
                 Elementos.Date.getDayOfWeek().plus(1).getDisplayName(TextStyle.FULL, Locale.of("es")).substring(0, 1).toUpperCase()
-                .concat(Elementos.Date.getDayOfWeek().plus(1).getDisplayName(TextStyle.FULL, Locale.of("es")).substring(1).toLowerCase()), 
-                Elementos.daily_will_it_rain[1] == 1 ? "🌧️":"☀️", 
+                .concat(Elementos.Date.getDayOfWeek().plus(1).getDisplayName(TextStyle.FULL, Locale.of("es")).substring(1).toLowerCase()),
+                Elementos.daily_will_it_rain[1] == 1 ? "🌧️":"☀️",
                 Elementos.maxtemp_c[1]+"° / "+Elementos.mintemp_c[1]+"°"
             );
-       
         panelDerecho.add(mañana);
-            // Tu lógica de variables original se mantiene
         pasadoMañana = new PanelPronostico(
                 Elementos.Date.getDayOfWeek().plus(2).getDisplayName(TextStyle.FULL, Locale.of("es")).substring(0, 1).toUpperCase()
-                .concat(Elementos.Date.getDayOfWeek().plus(2).getDisplayName(TextStyle.FULL, Locale.of("es")).substring(1).toLowerCase()), 
-                Elementos.daily_will_it_rain[2] == 1 ? "🌧️":"☀️", 
+                .concat(Elementos.Date.getDayOfWeek().plus(2).getDisplayName(TextStyle.FULL, Locale.of("es")).substring(1).toLowerCase()),
+                Elementos.daily_will_it_rain[2] == 1 ? "🌧️":"☀️",
                 Elementos.maxtemp_c[2]+"° / "+Elementos.mintemp_c[2]+"°"
             );
         panelDerecho.add(Box.createRigidArea(new Dimension(0, 10)));
         panelDerecho.add(pasadoMañana);
-        
+
         panelDerecho.add(Box.createRigidArea(new Dimension(0, 25)));
         panelDerecho.add(panelBusqueda);
-        
+
+        panelDerecho.add(Box.createRigidArea(new Dimension(0, 15)));
+
+        JLabel lblCiudadesGuardadas = crearLabel("Ciudades guardadas", 14, true, TEXTO_PRINCIPAL);
+        panelDerecho.add(lblCiudadesGuardadas);
+        panelDerecho.add(Box.createRigidArea(new Dimension(0, 5)));
+
+        comboCiudades = new JComboBox<>();
+        comboCiudades.setFont(new Font("Arial", Font.PLAIN, 13));
+        comboCiudades.setBackground(new Color(80, 90, 105));
+        comboCiudades.setForeground(Color.WHITE);
+        comboCiudades.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        comboCiudades.setMaximumSize(new Dimension(310, 30));
+        comboCiudades.setPreferredSize(new Dimension(310, 30));
+        comboCiudades.addItemListener(ev -> {
+            if (ev.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+                String seleccion = (String) comboCiudades.getSelectedItem();
+                if (seleccion != null && ciudadesGuardadas.containsKey(seleccion)) {
+                    ciudadActual = seleccion;
+                    ultimaJson = ciudadesGuardadas.get(seleccion);
+                    Modelo.mapInfo(ciudadesGuardadas.get(seleccion));
+                    actVentana();
+                }
+            }
+        });
+        panelDerecho.add(comboCiudades);
+        panelDerecho.add(Box.createRigidArea(new Dimension(0, 8)));
+
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        panelBotones.setOpaque(false);
+
+        botonGuardar = new JButton("Guardar");
+        botonGuardar.setFont(new Font("Arial", Font.PLAIN, 13));
+        botonGuardar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonGuardar.setBackground(new Color(80, 90, 105));
+        botonGuardar.setForeground(Color.WHITE);
+        botonGuardar.setFocusPainted(false);
+        botonGuardar.addActionListener(ev -> {
+            if (ciudadActual != null && ultimaJson != null) {
+                if (ciudadesGuardadas.containsKey(ciudadActual)) {
+                    ciudadesGuardadas.put(ciudadActual, ultimaJson);
+                    lblEstadoGuardado.setText("Actualizada");
+                } else {
+                    ciudadesGuardadas.put(ciudadActual, ultimaJson);
+                    comboCiudades.addItem(ciudadActual);
+                    comboCiudades.setSelectedItem(ciudadActual);
+                    lblEstadoGuardado.setText("Guardada");
+                }
+            }
+        });
+        panelBotones.add(botonGuardar);
+
+        JButton botonEliminar = new JButton("Eliminar");
+        botonEliminar.setFont(new Font("Arial", Font.PLAIN, 13));
+        botonEliminar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonEliminar.setBackground(new Color(120, 60, 60));
+        botonEliminar.setForeground(Color.WHITE);
+        botonEliminar.setFocusPainted(false);
+        botonEliminar.addActionListener(ev -> {
+            String seleccion = (String) comboCiudades.getSelectedItem();
+            if (seleccion != null && ciudadesGuardadas.containsKey(seleccion)) {
+                ciudadesGuardadas.remove(seleccion);
+                comboCiudades.removeItem(seleccion);
+                lblEstadoGuardado.setText("Eliminada");
+                if (comboCiudades.getItemCount() > 0) {
+                    comboCiudades.setSelectedIndex(0);
+                }
+            }
+        });
+        panelBotones.add(botonEliminar);
+
+        lblEstadoGuardado = crearLabel(" ", 12, false, TEXTO_SECUNDARIO);
+        panelBotones.add(lblEstadoGuardado);
+
+        panelDerecho.add(panelBotones);
+
         return panelDerecho;
     }
 
@@ -482,21 +509,22 @@ public class WeatherAppUI {
     }
     private static void actVentana(){
 
-        panelPrincipal.setBackground(Elementos.is_day.equals("☀️") ? COLOR_FONDO_DIA : COLOR_FONDO_NOCHE);
+        Color colorFondo = Elementos.is_day.equals("☀️") ? COLOR_FONDO_DIA : COLOR_FONDO_NOCHE;
+        panelPrincipal.setBackground(colorFondo);
+        barraSuperior.setBackground(colorFondo);
+        panelContenido.setBackground(colorFondo);
         lblUbicacion.setText("📍"+Elementos.name+", "+Elementos.country);
         String fecha = Elementos.Date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).localizedBy(Locale.of("es")));
         lblFecha.setText(fecha.substring(0,1).toUpperCase()+fecha.substring(1));
-        LocalTime ahora = Elementos.Date.toLocalTime();
         timer.stop();
         lblIcono.setText(Elementos.is_day+Elementos.cloud);
         timer = new Timer(1000, new ActionListener() {
-            LocalTime ahoramasuno = ahora;
             @Override
             public void actionPerformed(ActionEvent e) {
-                ahoramasuno = ahoramasuno.plusSeconds(1);
+                LocalTime ahoraReal = LocalTime.now();
                 DateTimeFormatter formatoNormal = DateTimeFormatter.ofPattern("hh:mm:ss a");
                 DateTimeFormatter formatoMilitar = DateTimeFormatter.ofPattern("HH:mm:ss");
-                String textoHora = ahoramasuno.format(formatoNormal) + "  |  " + ahoramasuno.format(formatoMilitar) + " (24h)";
+                String textoHora = ahoraReal.format(formatoNormal) + "  |  " + ahoraReal.format(formatoMilitar) + " (24h)";
                 lblHora.setText(textoHora);
             }
         });
@@ -515,8 +543,11 @@ public class WeatherAppUI {
                 .concat(Elementos.Date.getDayOfWeek().plus(2).getDisplayName(TextStyle.FULL, Locale.of("es")).substring(1).toLowerCase()), 
                 Elementos.daily_will_it_rain[2] == 1 ? "🌧️":"☀️", 
                 Elementos.maxtemp_c[2]+"° / "+Elementos.mintemp_c[2]+"°");
-        frame.repaint();
-        frame.revalidate();
+        if (comboCiudades != null && ciudadActual != null && ciudadesGuardadas.containsKey(ciudadActual)) {
+            comboCiudades.setSelectedItem(ciudadActual);
+        }
+        panelContenido.revalidate();
+        panelContenido.repaint();
     }
 
    static class PanelPronostico extends JPanel { // O la clase base redondeada que uses, nya.
